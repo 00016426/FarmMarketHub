@@ -1,1 +1,14 @@
-[] 
+[
+    {
+        "id": "abc123",
+        "product":{
+            "farmName": "Granny's Love", 
+            "availableFrom": "2024-03-14 11:00", 
+            "product": "Carrot in kgs", 
+            "contactPhone": "+998991356789", 
+            "inStock": 60 
+        }
+      
+    }
+      
+] 

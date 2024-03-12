@@ -1,35 +1,43 @@
 include ../head.pug
 body
-  .container.mt-5
-    h1 Locals Farmers Market Online Directory 
-    table.table.table-responsive.table-hover.table-striped.table-dark
-      thead
-        tr
-          th(scope="col") ID
-          th(scope="col") Farm Name
-          th(scope="col") Available From
-          th(scope="col") Product
-          th(scope="col") Contact Phone
-          th(scope="col") In stock
-          th(scope="col") Actions
-      tbody
-        tr
-          td 1
-          td Funny Chicken  
-          td 2024-03-11 08:00
-          td whole chicken meat 
-          td +998991234567
-          td 100
-          td
-            button.btn.btn-primary.btn-sm Edit
-            button.btn.btn-danger.btn-sm Delete
-        tr
-          td 1
-          td Granny's Love 
-          td 2024-03-14 11:00
-          td carrot in kgs  
-          td +998991356789
-          td 60
-          td
-            button.btn.btn-primary.btn-sm Edit
-            button.btn.btn-danger.btn-sm Delete
+    .container.mt-5
+      h1 List
+      table.table.table-responsive.table-hover.table-striped.table-dark
+        thead
+          tr
+            th(scope="col") ID
+            th(scope="col") Farm Name
+            th(scope="col") Available From
+            th(scope="col") Product
+            th(scope="col") Contact Phone
+            th(scope="col") In stock
+            th(scope="col") Actions
+        tbody
+
+script.
+      document.addEventListener('DOMContentLoaded', function() {
+        axios.get('/api/product') // Assuming your route for getting products is '/api/product'
+          .then(function(response) {
+            const products = response.data;
+            const tableBody = document.querySelector('table tbody');
+            products.forEach(p => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${p.id}</td>
+                <td>${p.farmName}</td>
+                <td>${p.availableFrom}</td>
+                <td>${p.product}</td>
+                <td>${p.contactPhone}</td>
+                <td>${p.inStock}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm">Edit</button>
+                  <button class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              `;
+              tableBody.appendChild(row);
+            });
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });

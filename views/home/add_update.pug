@@ -1,0 +1,35 @@
+include ../head.pug
+body
+    .container.mt-5
+      h1 Add/Update Farmer Listing
+      form(action="/submit-farmer-form" method="POST")
+        .mb-3
+          label(for="farmName" class="form-label") Farm Name
+          input(type="text" class="form-control" id="farmName" name="farmName" required)
+        .mb-3
+          label(for="availableFrom" class="form-label") Available From
+          .input-group.date(id="datetimepicker1" data-target-input="nearest")
+            input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="availableFrom" required)
+            .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
+              .input-group-text
+                i.fas.fa-calendar-alt
+        .mb-3
+          label(for="product" class="form-label") Product
+          input(type="text" class="form-control" id="product" name="product" required)
+        .mb-3
+          label(for="contactPhone" class="form-label") Contact Phone
+          input(type="tel" class="form-control" id="contactPhone" name="contactPhone" required)
+        .mb-3
+          label(for="inStock" class="form-label") In Stock
+          input(type="number" class="form-control" id="inStock" name="inStock" required)
+        button(type="submit" class="btn btn-primary") Add/Edit
+
+    script.
+        const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
+            localization: {
+                'locale': 'uz'
+            }
+        });
+        picker.dates.formatInput = function(date) {
+            return moment(date).format('YYYY-MM-DD HH:mm')
+        }

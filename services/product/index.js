@@ -1,9 +1,9 @@
 const fs = require('fs');
 
-// access global mock db file
-const products = require(global.mock_db);
+// Access global mock db file
+const products = require(global.mock_db); // Assuming your mock database for products is named products
 
-// write service method implementations
+// Write service method implementations
 const product_service = {
     getAll() {
         return products;
@@ -12,18 +12,32 @@ const product_service = {
         return products.find(product => product.id === id);
     },    
     create(productData) {
-        let new_id = genRandId(4);
-                
-        const new_product = {
-            id: new_id,
-            product: productData
+        const newProduct = {
+            id: genRandId(4),
+            ...productData
         };
 
-        products.push(new_product);
+        products.push(newProduct);
         
         writeToFile(products);
         
-        return new_product;
+        return newProduct;
+    },
+    update(id, updateData){
+        const productIndex = products.findIndex(product => product.id === id);
+
+        if (productIndex === -1) {
+            return null;
+        }
+
+        products[productIndex] = {
+            ...products[productIndex],
+            ...updateData
+        };
+
+        writeToFile(products);
+
+        return products[productIndex];
     },
     delete(id) {
         const index = products.findIndex(product => product.id === id);
@@ -36,12 +50,16 @@ const product_service = {
     }
 };
 
-// create function for overwriting the db file updated db content
+// Function for overwriting the db file with updated content
 let writeToFile = async (products) => {
-    await fs.writeFileSync(global.mock_db, JSON.stringify(products, null, 4), 'utf8');
+    try {
+        await fs.writeFileSync(global.mock_db, JSON.stringify(products, null, 4), 'utf8');
+    } catch (error) {
+        console.error('Error writing to file:', error);
+    }
 };
 
-// generate random id inspired by uuid
+// Generate random id inspired by uuid
 let genRandId = (count) => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

@@ -1,9 +1,9 @@
 const express = require('express');
 const { validationResult } = require('express-validator');
-const { addProductValidation } = require('../../../validators/product'); // Assuming you have a product validator
+const { addProductValidation } = require('../../../validators/product');
 
 const router = express.Router();
-const product_controller = require('../../../controllers/api/product'); // Assuming your controller is named product_controller
+const product_controller = require('../../../controllers/api/product');
 
 // Define API routes
 router.get('/', (req, res) => {
@@ -17,6 +17,11 @@ router.post('/', addProductValidation(), (req, res) => {
     }
 
     product_controller.create(req, res);
+});
+
+router.delete('/:id', (req, res) => {
+    const productId = req.params.id;
+    product_controller.delete(req, res, productId);
 });
 
 module.exports = router;

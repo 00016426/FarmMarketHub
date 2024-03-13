@@ -1,36 +1,48 @@
 const fs = require('fs');
 
-// Access global mock db file
-const products = require(global.mock_db); // Assuming your mock database for products is named products
+// access global mock db file
+const products = require(global.mock_db);
 
-// Write service method implementations
+// write service method implementations
 const product_service = {
     getAll() {
         return products;
     },
+    getById(id) {
+        return products.find(product => product.id === id);
+    },    
     create(productData) {
-        const new_id = genRandId(4);
+        let new_id = genRandId(4);
                 
-        const newProduct = {
+        const new_product = {
             id: new_id,
             product: productData
         };
 
-        products.push(newProduct);
+        products.push(new_product);
         
         writeToFile(products);
         
-        return newProduct;
+        return new_product;
+    },
+    delete(id) {
+        const index = products.findIndex(product => product.id === id);
+        if (index !== -1) {
+            products.splice(index, 1);
+            writeToFile(products);
+            return true; // Indicate success
+        }
+        return false; // Indicate failure
     }
 };
 
-// Function for overwriting the db file with updated content
-const writeToFile = (data) => {
-    fs.writeFileSync(global.mock_db, JSON.stringify(data, null, 4), 'utf8');
+// create function for overwriting the db file updated db content
+let writeToFile = async (products) => {
+    await fs.writeFileSync(global.mock_db, JSON.stringify(products, null, 4), 'utf8');
 };
 
-// Generate random id inspired by uuid
-const genRandId = (count) => {
+// generate random id inspired by uuid
+let genRandId = (count) => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;

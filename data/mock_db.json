@@ -1,14 +1,32 @@
 [
     {
         "id": "abc123",
-        "product":{
-            "farmName": "Granny's Love", 
-            "availableFrom": "2024-03-14 11:00", 
-            "product": "Carrot in kgs", 
-            "contactPhone": "+998991356789", 
-            "inStock": 60 
+        "product": {
+            "farmName": "Granny's Love",
+            "availableFrom": "2024-03-14 11:00",
+            "product": "Carrot in kgs",
+            "contactPhone": "+998991356789",
+            "inStock": 60
         }
-      
+    },
+    {
+        "id": "7rbG",
+        "product": {
+            "farmName": "Hardworking people",
+            "availableFrom": "2024-03-27 08:00",
+            "product": "Tomato in kgs",
+            "contactPhone": "+998912345678",
+            "inStock": 45
+        }
+    },
+    {
+        "id": "uTmX",
+        "product": {
+            "farmName": "Hampshire sunshane",
+            "availableFrom": "2024-03-27 07:00",
+            "product": "Cucumber in kgs",
+            "contactPhone": "+998903456789",
+            "inStock": 40
+        }
     }
-      
-] 
+]

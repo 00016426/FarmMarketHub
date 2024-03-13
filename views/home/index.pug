@@ -1,43 +1,45 @@
 include ../head.pug
 body
-    .container.mt-5
-      h1 List
-      table.table.table-responsive.table-hover.table-striped.table-dark
-        thead
-          tr
-            th(scope="col") ID
-            th(scope="col") Farm Name
-            th(scope="col") Available From
-            th(scope="col") Product
-            th(scope="col") Contact Phone
-            th(scope="col") In stock
-            th(scope="col") Actions
-        tbody
-
-script.
-      document.addEventListener('DOMContentLoaded', function() {
-        axios.get('/api/product') // Assuming your route for getting products is '/api/product'
-          .then(function(response) {
-            const products = response.data;
-            const tableBody = document.querySelector('table tbody');
-            products.forEach(p => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                <td>${p.id}</td>
-                <td>${p.farmName}</td>
-                <td>${p.availableFrom}</td>
-                <td>${p.product}</td>
-                <td>${p.contactPhone}</td>
-                <td>${p.inStock}</td>
-                <td>
-                  <button class="btn btn-primary btn-sm">Edit</button>
-                  <button class="btn btn-danger btn-sm">Delete</button>
-                </td>
-              `;
-              tableBody.appendChild(row);
-            });
-          })
-          .catch(function(error) {
-            console.log(error);
+  .container.mt-5
+    h1 List
+    table.table.table-responsive.table-hover.table-striped.table-dark
+      thead
+        tr
+          th(scope="col") ID
+          th(scope="col") Farm Name
+          th(scope="col") Available From
+          th(scope="col") Product
+          th(scope="col") Contact Phone
+          th(scope="col") In stock
+          th(scope="col") Actions
+      tbody
+        //- JavaScript code to fetch and render products
+        script.
+          document.addEventListener('DOMContentLoaded', function() {
+            axios.get('/api/product')
+              .then(function(response) {
+                return response.data; // Return the data from the first .then() block
+              })
+              .then(function(products) { // Now products is the return value from the previous .then() block
+                const tableBody = document.querySelector('table tbody');
+                products.forEach(product => {
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.product.farmName}</td>
+                    <td>${product.product.availableFrom}</td>
+                    <td>${product.product.product}</td>
+                    <td>${product.product.contactPhone}</td>
+                    <td>${product.product.inStock}</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm">Edit</button>
+                      <button class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                  `;
+                  tableBody.appendChild(row);
+                });
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
           });
-      });

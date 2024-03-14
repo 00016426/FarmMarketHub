@@ -1,15 +1,5 @@
 [
     {
-        "id": "abc123",
-        "product": {
-            "farmName": "Granny's Love",
-            "availableFrom": "2024-03-14 11:00",
-            "product": "Carrot in kgs",
-            "contactPhone": "+998991356789",
-            "inStock": 60
-        }
-    },
-    {
         "id": "aeUA",
         "product": {
             "farmName": "Cool cucumber",
@@ -17,6 +7,16 @@
             "product": "Reddish in kgs ",
             "contactPhone": "+998998765432",
             "inStock": "124"
+        }
+    },
+    {
+        "id": "BV7n",
+        "product": {
+            "farmName": "Funny Chicken ",
+            "availableFrom": "10/03/2024 17:22",
+            "product": "whole chicken meat ",
+            "contactPhone": "+998908721345",
+            "inStock": "87"
         }
     }
 ]

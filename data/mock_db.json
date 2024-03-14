@@ -10,13 +10,13 @@
         }
     },
     {
-        "id": "7rbG",
+        "id": "aeUA",
         "product": {
-            "farmName": "Hardworking people",
-            "availableFrom": "2024-03-27 08:00",
-            "product": "Tomato in kgs",
-            "contactPhone": "+998912345678",
-            "inStock": 45
+            "farmName": "Cool cucumber",
+            "availableFrom": "14/03/2024 16:50",
+            "product": "Reddish in kgs ",
+            "contactPhone": "+998998765432",
+            "inStock": "124"
         }
     }
 ]

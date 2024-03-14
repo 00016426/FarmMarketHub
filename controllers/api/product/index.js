@@ -1,13 +1,8 @@
 const product_service = require('../../../services/product');
 
-const product_controller = {
+const ticket_controller = {
     getAll(req, res) {
-        try {
-            const products = product_service.getAll();
-            res.json(products);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+        res.json(product_service.getAll());
     },
     create(req, res) {
         try {
@@ -19,9 +14,9 @@ const product_controller = {
     },
     update(req, res) {
         try {
-            const product = product_service.update(req.params.id, req.body);
-            if (product) {
-                res.json(product);
+            const updatedProduct = product_service.update(req.params.id, req.body);
+            if (updatedProduct) {
+                res.json(updatedProduct);
             } else {
                 res.status(404).send('Product not found');
             }
@@ -44,4 +39,4 @@ const product_controller = {
     }
 };
 
-module.exports = product_controller;
+module.exports = ticket_controller;

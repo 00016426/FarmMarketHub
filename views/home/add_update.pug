@@ -2,29 +2,28 @@ include ../head.pug
 body
   .container.mt-5
     h1 #{mode}
-    form(action="/submit-product-form" method="POST")
-      .mb-3
-        label(for="farmName" class="form-label") Farm Name
-        input(type="text" class="form-control" id="farmName" name="farmName" required)
-      .mb-3
-        label(for="availableFrom" class="form-label") Available From
-        .input-group.date(id="datetimepicker1" data-target-input="nearest")
-          input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="availableFrom" name="availableFrom" required)
-          .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
-            .input-group-text
-              i.fas.fa-calendar-alt
-      .mb-3
-        label(for="product" class="form-label") Product
-        input(type="text" class="form-control" id="product" name="product" required)
-      .mb-3
-        label(for="contactPhone" class="form-label") Contact Phone
-        input(type="tel" class="form-control" id="contactPhone" name="contactPhone" required)
-      .mb-3
-        label(for="inStock" class="form-label") In Stock
-        input(type="number" class="form-control" id="inStock" name="inStock" required)
-      button(type="submit" class="btn btn-success") #{mode === 'Update' ? 'Update' : 'Add'}
-      span &nbsp;
-      button(type="submit" class="btn btn-primary" onclick="window.location.href='/'") Back to list
+    .mb-3
+      label(for="farmName" class="form-label") Farm Name
+      input(type="text" class="form-control" id="farmName" name="farmName" required)
+    .mb-3
+      label(for="availableFrom" class="form-label") Available From
+      .input-group.date(id="datetimepicker1" data-target-input="nearest")
+        input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="availableFrom" name="availableFrom" required)
+        .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
+          .input-group-text
+            i.fas.fa-calendar-alt
+    .mb-3
+      label(for="product" class="form-label") Product
+      input(type="text" class="form-control" id="product" name="product" required)
+    .mb-3
+      label(for="contactPhone" class="form-label") Contact Phone
+      input(type="tel" class="form-control" id="contactPhone" name="contactPhone" required)
+    .mb-3
+      label(for="inStock" class="form-label") In Stock
+      input(type="text" class="form-control" id="inStock" name="inStock" required)
+    button(type="submit" class="btn btn-success" onclick="submitForm()") #{mode === 'Update' ? 'Update' : 'Add'}
+    span &nbsp;
+    button(type="submit" class="btn btn-primary" onclick="window.location.href='/'") Back to list
 
   script.
     const format = 'DD/MM/YYYY HH:mm'
@@ -36,7 +35,7 @@ body
     picker.dates.formatInput = function(date) {
         return moment(date).format(format)
     }
-    // populate your input fields as this operation is "Update" 
+
     if ("#{mode}" === "Update") {
       const productData = !{JSON.stringify(productData || {})}.product;
       document.getElementById('farmName').value = productData.farmName || '';
@@ -59,7 +58,7 @@ body
         inStock: document.getElementById('inStock').value,
       };
 
-      const url = "#{mode}" === "Update" ? `/api/product/${productData.id}` : '/api/product';
+      const url = "#{mode}" === "Update" ? `/api/product/${!{JSON.stringify(productData || {})}.id}` : '/api/product';
       const method = "#{mode}" === "Update" ? 'put' : 'post';
 
       axios[method](url, productData).then(response => {

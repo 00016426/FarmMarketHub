@@ -1,28 +1,33 @@
 include ../head.pug
-body
-  .container.mt-5
-    h1 Local Farmers Market Online Directory
-    table.table.table-responsive.table-hover.table-striped.table-dark
-      thead
-        tr
-          th(scope="col") ID
-          th(scope="col") Farm Name
-          th(scope="col") Available From
-          th(scope="col") Product
-          th(scope="col") Contact Phone
-          th(scope="col") In stock
-          th(scope="col") Actions
-      tbody
-        //- JavaScript code to fetch and render products
-        script.
-          document.addEventListener('DOMContentLoaded', function() {
-            axios.get('/api/product')
-              .then(function(response) {
-                const products = response.data;
-                const tableBody = document.querySelector('table tbody');
-                products.forEach(product => {
-                  const row = document.createElement('tr');
-                  row.innerHTML = `
+body(style="background-color: #add8e6;") 
+    .container.mt-5
+        .row.d-flex.align-items-center
+            .col-md-6
+                h1(style="color: #ff1493;") Local Farmers Market Online Directory Online 
+            .col-md-6.text-end
+                a.btn.btn-success(href='/add', role='button') Add      
+        table.table.table-responsive.table-hover.table-striped.table-pastel(style="background-color: #ffb6c1;") 
+            thead
+                tr
+                    th(scope="col") ID
+                    th(scope="col") Farm Name
+                    th(scope="col") Available From
+                    th(scope="col") Product
+                    th(scope="col") Contact Phone
+                    th(scope="col") In Stock
+                    th(scope="col") Actions
+            tbody
+                //- Table body content here
+    footer(style="margin-top: 50px;") 
+        p(style="text-align: center;") This web application was created to fulfill Web Techlogy module's requirements and does not represent an actual company or service. 
+script.
+    document.addEventListener('DOMContentLoaded', function() {
+        axios.get('/api/product').then(function(response) {
+            const products = response.data;
+            const tableBody = document.querySelector('table tbody');
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
                     <td>${product.id}</td>
                     <td>${product.product.farmName}</td>
                     <td>${product.product.availableFrom}</td>
@@ -30,28 +35,28 @@ body
                     <td>${product.product.contactPhone}</td>
                     <td>${product.product.inStock}</td>
                     <td>
-                      <button class="btn btn-primary btn-sm" data-id="${product.id}" onclick="window.location.href='/update/${product.id}'">Update</button>
-                      <button class="btn btn-danger btn-sm" data-id="${product.id}">Delete</button>
+                        <button class="btn btn-primary btn-sm" data-id="${product.id}" onclick="window.location.href='/update/${product.id}'">Update</button>
+                        <button class="btn btn-danger btn-sm" data-id="${product.id}">Delete</button>
                     </td>
-                  `;
-                  tableBody.appendChild(row);
-                });
-              })
-              .catch(function(error) {
-                console.log(error);
-              });
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 
-            // Event delegation for delete buttons
-            document.addEventListener('click', function(event) {
-              if (event.target && event.target.classList.contains('btn-danger')) {
+        // Use event delegation for delete buttons
+        document.addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('btn-danger')) {
                 const productId = event.target.getAttribute('data-id');
                 axios.delete(`/api/product/${productId}`).then(function(response) {
-                  console.log('Delete successful', response);
-                  location.reload(); // Reload the page after successful deletion
+                    alert('Deleted successfully', response);
+                    location.href = '/'
                 })
                 .catch(function(error) {
-                  console.log('Error deleting product', error);
+                    alert('Error deleting product: ' + error);
                 });
-              }
-            });
-          });
+            }
+        });
+    });

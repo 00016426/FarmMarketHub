@@ -1,20 +1,22 @@
 const fs = require('fs');
 
 // Access global mock db file
-const products = require(global.mock_db); // Assuming your mock database for products is named products
+const products = require(global.mock_db);
 
 // Write service method implementations
-const product_service = {
+const ticket_service = {
     getAll() {
         return products;
     },
     getById(id) {
-        return products.find(product => product.id === id);
+        return products.find(p => p.id == id);
     },    
     create(productData) {
+        let new_id = genRandId(4);
+                
         const newProduct = {
-            id: genRandId(4),
-            ...productData
+            id: new_id,
+            product: productData
         };
 
         products.push(newProduct);
@@ -23,44 +25,33 @@ const product_service = {
         
         return newProduct;
     },
-    update(id, updateData){
-        const productIndex = products.findIndex(product => product.id === id);
+    update(id, updateData) {
+        const productIndex = products.findIndex(p => p.id == id);
 
         if (productIndex === -1) {
             return null;
         }
 
-        products[productIndex] = {
-            ...products[productIndex],
-            ...updateData
-        };
+        products[productIndex].product = { ...products[productIndex].product, ...updateData };
 
         writeToFile(products);
 
         return products[productIndex];
     },
     delete(id) {
-        const index = products.findIndex(product => product.id === id);
-        if (index !== -1) {
-            products.splice(index, 1);
-            writeToFile(products);
-            return true; // Indicate success
-        }
-        return false; // Indicate failure
+        const index = products.findIndex(p => p.id == id);
+        products.splice(index, 1);    
+        writeToFile(products);
     }
 };
 
-// Function for overwriting the db file with updated content
-let writeToFile = async (products) => {
-    try {
-        await fs.writeFileSync(global.mock_db, JSON.stringify(products, null, 4), 'utf8');
-    } catch (error) {
-        console.error('Error writing to file:', error);
-    }
+// Create function for overwriting the db file updated db content
+const writeToFile = async (data) => {
+    await fs.writeFileSync(global.mock_db, JSON.stringify(data, null, 4), 'utf8');
 };
 
 // Generate random id inspired by uuid
-let genRandId = (count) => {
+const genRandId = (count) => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -70,4 +61,4 @@ let genRandId = (count) => {
     return result;
 };
 
-module.exports = product_service;
+module.exports = ticket_service;
